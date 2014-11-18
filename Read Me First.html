@@ -13,7 +13,7 @@ a:hover { text-decoration: underline; }
 </head>
 <body>
 <a name="ToC"></a>
-<h2>ICU Windower Version 2.0 Readme</h2>
+<h2>ICU Windower Version 2.0.1 Readme</h2>
 <table border="0">
 <thead>
 <th>Table of Contents</th>
@@ -56,16 +56,35 @@ are needed to write to the HKEY_LOCAL_MACHINE section of the Registry.</p>
 <p>This release automatically sets the Ramp Emulation Game Graphics setting and all other required settings so so Windowed Mode will activate.
 <br>It also asks you if you would like to use Ramp Emulation or MMX Emulation when restoring Full Screen Mode, as well as other Game Graphics settings.</p>
 
-<p>Do note that Windowed Mode will not activate all the time, or maybe not at all, simply because a method to always activate it is still being developed.
+<p>From version 2.0 onward, you are able to launch <span class="italic">LEGO Island</span> after you activate either Windowed or Full 
+Screen mode.</p>
+
+<p>As of version 2.0.1, you are able to manually select a <span class="italic">LEGO Island</span> installation if the auto-detection or game launching fails. 
+However, if you do need to use this feature,<br>you will have to select the installation every time, as it is not stored between launches. This annoying 
+limitation is planned to be fixed in a future release.</p>
+
+<p class="bold">Do note that Windowed Mode is inherently buggy, and it will not activate all the time, or maybe not at all, simply because a method to always activate it is still being developed.
 <br>If you experience this, please follow the same steps you would to report a bug.</p>
 <a name="Changes"></a>
 
 <h2>Change Log</h2>
+<h3>2.0.1</h3>
+(Released March 27, 2013)<br>
+<ul>
+<li>Fixed web browser launch in <code>preload()</code></li>
+<li>Simplified <span class="italic">LEGO Island</span> launching code by merging game location search from Windowed and Full Screen functions into <code>
+letheIsland()</code></li>
+<li>Added manual <span class="italic">LEGO Island</span> installation selection if auto-detection/game-launching fails.</li>
+<li>Moved <span class="bold">ICU Windower</span> exit message when launching <span class="italic">LEGO Island</span> from after the game launches to before 
+it launches</li>
+<li>Updated Readme with new info</li>
+</ul>
+
 <h3>2.0</h3>
 (Released March 16, 2013)<br>
 <ul>
 <li>Official rename from <span class="bold">LEGO Island Windower</span> to <span class="bold">ICU Windower</span></li>
-<li>Rewritten from scratch in Python 3.3, with same feature set as V1.3</li>
+<li>Rewritten from scratch in Python 3.3.0, with same feature set as V1.3</li>
 <li>Carried over game launcher after either mode is activated from V1.3.1 (uses installation path defined in Registry)</li>
 <li>Added window title using app name, major version</li>
 <li>Carried over HTML Readme from 1.3.1</li>

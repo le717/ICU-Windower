@@ -1,22 +1,24 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 3
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-#
-# ##### END GPL LICENSE BLOCK #####
+"""
+    This file is part of ICU (LEGO Island Configuration Utility)
 
-# ICU Windower V2.0
+    ICU - A collection of LEGO Island Configuration Tools
+    Copyright 2012-2013 Triangle717 <http://triangle717.wordpress.com>
+
+    ICU is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ICU is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ICU. If not, see <http://www.gnu.org/licenses/>.
+"""
+
+# ICU Windower V2.0.1
 # Part of ICU (LEGO Island Configuration Utility)
 # https://github.com/le717/ICU
 # Copyright 2012-2013 Triangle717 (http://triangle717.wordpress.com).
@@ -25,10 +27,11 @@ import os, sys, time # General use modules
 import winreg, platform # Main use module
 import webbrowser, subprocess # Special purpose modules
 import logging, yourscorecube # Logging Code
+from tkinter import (filedialog, Tk) # File selection dialog
 
 # Global variables
 app = "ICU Windower"
-majver = "Version 2.0"
+majver = "Version 2.0.1"
 minver = ""
 creator = "Triangle717"
 game = "LEGO Island"
@@ -60,7 +63,7 @@ def preload():
         # Don't open browser immediately
         time.sleep(2)
         logging.info("Open new tab in web browser to http://python.org/download")
-        open_new_tab("http://python.org/download") # New tab, raise browser window (if possible)
+        webbrowser.open_new_tab("http://python.org/download") # New tab, raise browser window (if possible)
 
         # Close ICU ReDirect
         logging.info("Display error message for three seconds")
@@ -148,17 +151,96 @@ def main():
 
 # ------------ Begin Game Launching Code ------------ #
 
-def letheIsland(gamepath):
+def letheIsland():
     '''Launches LEGO Island'''
 
     logging.info('''
 ''')
 
+    if osbit == "x86":
+        try:
+            logging.info("Get LEGO Island Installation path from x86 Registry")
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Mindscape\LEGO Island') as gamefolder:
+                gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
+
+            # Convert tuple to str(ing)
+            logging.info("Convert tuple returned by Registry to a string")
+            gamepath = str(gamepath)
+
+            # Clean up string to get a clean folder path
+            logging.info("Cleaning up installation folder path...")
+            gamepath = gamepath.strip("(''), 1")
+            logging.info("LEGO Island Installation located at {0}".format(gamepath))
+
+        # ICU Windower could not properly find the game location, run with Admin rights, such and such.
+        except WindowsError:
+            logging.warning("{0} cannot detect LEGO Island installation!".format(game))
+            print("{0} cannot detect a {1} installation!".format(app, game))
+            time.sleep(3)
+
+            # Ask if user wants to manually select the installation
+            logging.info("Do you want to select an installation yourself?")
+            print("Do you want to manually select a {0} installation?".format(game))
+            manual_select = input("\n\n> ")
+
+            # Nope, go back to the menu
+            if manual_select.lower() != 'y':
+                logging.warning("User does not want to manually select an installation!")
+                time.sleep(1)
+                logging.info("Switching to main menu")
+                main()
+
+            # Yes, I want to select an installation
+            else:
+                logging.info("User does want to manually select an installation")
+                logging.info("Switching to selecttheIsland()")
+                time.sleep(1)
+                selecttheIsland()
+
+    elif osbit == "x64":
+        try:
+            logging.info("Get LEGO Island Installation path from x64 Registry")
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Wow6432Node\Mindscape\LEGO Island') as gamefolder:
+                gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
+
+            # Convert tuple to str(ing)
+            logging.info("Convert tuple returned by Registry to a string")
+            gamepath = str(gamepath)
+
+            # Clean up string to get a clean folder path
+            logging.info("Cleaning up folder path...")
+            gamepath = gamepath.strip("(''), 1")
+            logging.info("LEGO Island Installation located at {0}".format(gamepath))
+
+        # ICU Windower could not properly find the game location, run with Admin rights, such and such.
+        except WindowsError:
+            logging.warning("{0} cannot detect LEGO Island installation!".format(game))
+            print("{0} cannot detect a {1} installation!".format(app, game))
+            time.sleep(3)
+
+            # Ask if user wants to manually select the installation
+            logging.info("Do you want to select an installation yourself?")
+            print("Do you want to manually select a {0} installation?".format(game))
+            manual_select = input("\n\n> ")
+
+            # Nope, go back to the menu
+            if manual_select.lower() != 'y':
+                logging.warning("User does not want to manually select an installation!")
+                time.sleep(1)
+                logging.info("Switching to main menu")
+                main()
+
+            # Yes, I want to select an installation
+            else:
+                logging.info("User does want to manually select an installation")
+                logging.info("Switching to selecttheIsland()")
+                time.sleep(1)
+                selecttheIsland()
 
     # Launch LEGO Island?
     logging.info("Do you want to play LEGO Island now?")
     print("\nDo you want to play {0} now? ".format(game) + r"(y\N)")
-    rungame = input("\n> ".format(game))
+    rungame = input("\n> ")
 
     # No, don't launch it
     if rungame.lower() != "y":
@@ -169,15 +251,16 @@ def letheIsland(gamepath):
     else:
         time.sleep(1)
         try:
+
+            # Display message
+            logging.info("Display exit message")
+            print("\nSee ya later, Brickulator!")
+
             # Run game
             logging.info('Run "legoisle.exe", located at {0}'.format(gamepath))
             # If the .exe name is all uppercase (as it installs) it will not load.
             # If it is all lowercase, it runs. Ah, the mysteries of the Island...
             subprocess.call([os.path.join(gamepath, "legoisle.exe")])
-
-            # Display message
-            logging.info("Display exit message")
-            print("\nSee ya later, Brickulator!")
 
             # Close app
             logging.info("{0} is shutting down".format(app))
@@ -190,6 +273,28 @@ def letheIsland(gamepath):
             time.sleep(3)
             logging.info("Switching to main menu")
             main()
+
+            # Ask if user wants to manually select the installation
+            logging.info("Do you want to select an installation yourself?")
+            print("Do you want to manually select a {0} installation?".format(game))
+            manual_select = input("\n\n> ")
+
+            # Nope, go back to the menu
+            if manual_select.lower() != 'y':
+                logging.warning("User does not want to manually select an installation!")
+                time.sleep(1)
+                logging.info("Switching to main menu")
+                main()
+
+            # Yes, I want to select an installation
+            else:
+                logging.info("User does want to manually select an installation")
+                logging.info("Switching to selecttheIsland()")
+                time.sleep(1)
+                selecttheIsland()
+
+# ------------ End Game Launching Code ------------ #
+
 
 # ------------ Begin Windowed Intro ------------ #
 
@@ -230,23 +335,10 @@ def eightsixWindowed():
             winreg.SetValueEx(createstrings, "3D Device Name", 0, winreg.REG_SZ, "Ramp Emulation")
             winreg.SetValueEx(createstrings, "Full Screen", 0, winreg.REG_SZ, "NO")
 
-        logging.info("Get LEGO Island Installation path from registry")
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Mindscape\LEGO Island') as gamefolder:
-            gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
-
-        # Convert tuple to str(ing)
-        logging.info("Convert tuple returned by registry string to a string")
-        gamepath = "".join(str(gamepath))
-
-        # Clean up string to get a clean folder path
-        logging.info("Cleaning up installation folder path...")
-        gamepath = gamepath.strip("(''), 1")
-        logging.info("LEGO Island Installation located at {0}".format(gamepath))
-
         logging.info("Windowed Mode sucessfully activated")
         print("\nWindowed Mode sucessfully activated!\n")
-        logging.info("Switching to game launching process (letheIsland(gamepath))")
-        letheIsland(gamepath)
+        logging.info("Switching to game launching process (letheIsland())")
+        letheIsland()
 
     except WindowsError:
         logging.warning("Cannot activate Windowed Mode!")
@@ -275,24 +367,10 @@ def sixfourWindowed():
             winreg.SetValueEx(createstrings, "3D Device Name", 0, winreg.REG_SZ, "Ramp Emulation")
             winreg.SetValueEx(createstrings, "Full Screen", 0, winreg.REG_SZ, "NO")
 
-
-        logging.info("Get LEGO Island Installation path from registry")
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Wow6432Node\Mindscape\LEGO Island') as gamefolder:
-            gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
-
-        # Convert tuple to str(ing)
-        logging.info("Convert tuple returned by registry string to a string")
-        gamepath = "".join(str(gamepath))
-
-        # Clean up string to get a clean folder path
-        logging.info("Cleaning up folder path...")
-        gamepath = gamepath.strip("(''), 1")
-        logging.info("LEGO Island Installation located at {0}".format(gamepath))
-
         logging.info("Windowed Mode sucessfully activated")
         print("\nWindowed Mode sucessfully activated!\n")
-        logging.info("Switching to game launching process (letheIsland(gamepath))")
-        letheIsland(gamepath)
+        logging.info("Switching to game launching process (letheIsland())")
+        letheIsland()
 
     except WindowsError:
         logging.warning("Cannot activate Windowed Mode!")
@@ -316,7 +394,7 @@ def FullScreen():
 
     # Ask if they would like Ramp or MMX Emulation
     logging.info("Do you want to use Ramp or MMX Emulation?")
-    logging.info("When in doubt, use Ramp")
+    logging.info("When in doubt, use Ramp.")
     print('''\nWould you like to use Ramp or MMX Emulation?
 Hint: Ramp Emulation works on almost all computers.
 \n[r] Ramp Emulation
@@ -371,23 +449,10 @@ def eightsixFullScreen(graphicsmode):
             else: # elif graphicsmode == "MMX":
                 winreg.SetValueEx(createstrings, "3D Device Name", 0, winreg.REG_SZ, "MMX Emulation")
 
-        logging.info("Get LEGO Island Installation path from registry")
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Mindscape\LEGO Island') as gamefolder:
-            gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
-
-        # Convert tuple to str(ing)
-        logging.info("Convert tuple returned by registry string to a string")
-        gamepath = "".join(str(gamepath))
-
-        # Clean up string to get a clean folder path
-        logging.info("Cleaning up folder path...")
-        gamepath = gamepath.strip("(''), 1")
-        logging.info("LEGO Island Installation located at {0}".format(gamepath))
-
         logging.info("Full Screen Mode sucessfully activated")
         print("\nFull Screen Mode sucessfully activated!\n")
-        logging.info("Switching to game launching process (letheIsland(gamepath))")
-        letheIsland(gamepath)
+        logging.info("Switching to game launching process (letheIsland())")
+        letheIsland()
 
     except WindowsError:
         logging.warning("Cannot activate Full Screen Mode!")
@@ -424,23 +489,10 @@ def sixfourFullScreen(graphicsmode):
             else: # elif graphicsmode == "MMX":
                 winreg.SetValueEx(createstrings, "3D Device Name", 0, winreg.REG_SZ, "MMX Emulation")
 
-        logging.info("Get LEGO Island Installation path from registry")
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'Software\Wow6432Node\Mindscape\LEGO Island') as gamefolder:
-            gamepath = winreg.QueryValueEx(gamefolder, "diskpath")
-
-        # Convert tuple to str(ing)
-        logging.info("Convert tuple returned by registry string to a string")
-        gamepath = "".join(str(gamepath))
-
-        # Clean up string to get a clean folder path
-        logging.info("Cleaning up folder path...")
-        gamepath = gamepath.strip("(''), 1")
-        logging.info("LEGO Island Installation located at {0}".format(gamepath))
-
         logging.info("Full Screen Mode sucessfully activated")
         print("\nFull Screen Mode sucessfully activated!\n")
-        logging.info("Switching to game launching process (letheIsland(gamepath))")
-        letheIsland(gamepath)
+        logging.info("Switching to game launching process (letheIsland()")
+        letheIsland()
 
     except WindowsError:
         logging.warning("Cannot activate Full Screen Mode!")
@@ -451,6 +503,82 @@ def sixfourFullScreen(graphicsmode):
         main()
 
 # ------------ End Windowed code for Windows x64 ------------ #
+
+
+# ------------ Began Manual LEGO Island Installation Selection ------------ #
+
+def selecttheIsland():
+    '''Manually Select a LEGO Island Installation if Detection Fails'''
+
+    # File format label
+    fileformat = [("Windows Executable", "*.exe")]
+
+    # Draw (then withdraw) the root Tk window
+    logging.info("Drawing root Tk window")
+    root = Tk()
+    logging.info("Withdrawing root Tk window")
+    root.withdraw()
+
+    # Overwrite root display settings
+    logging.info("Overwrite root settings to practically hide it")
+    root.overrideredirect(True)
+    root.geometry('0x0+0+0')
+
+    # Show window again, lift it so it can recieve the focus
+    # Otherwise, it is behind the console window
+    root.deiconify()
+    root.lift()
+    root.focus_force()
+
+    # Select the patch file
+    # TODO: How can I say to select LEGOISLE.EXE for an EXE with a different name?
+    logging.info("Display file selection dialog for LEGO Island EXE")
+    manualgamepath = filedialog.askopenfilename(
+    parent=root,
+    title="Select your LEGO Island Executable (LEGOISLE.EXE)",
+    defaultextension=".exe",
+    filetypes=fileformat)
+
+    # The user clicked the cancel button
+    if len(manualgamepath) == 0:
+
+        # Give focus back to console window
+        logging.info("Give focus back to console window")
+        root.destroy()
+
+        logging.warning("User did not select their LEGO Island installation!")
+        print("\nCould not find a vaild LEGO Island installation!")
+        time.sleep(1)
+
+        logging.info("Proceeding to main menu")
+        main()
+
+    # The user selected an installation
+    else:
+        try:
+
+            # Display exit message
+            logging.info("Display exit message")
+            print("\nSee ya later, Brickulator!")
+
+            logging.info('Run user-defined installation, located at {0}'.format(manualgamepath))
+            subprocess.call([manualgamepath])
+
+            # Close app
+            logging.info("{0} is shutting down".format(app))
+            raise SystemExit
+
+        # I guess this works?
+        except Exception:
+            logging.warning("User-defined LEGO Island installation did not work!")
+            print("\nCould not run {0} from {1}!".format(game, manualgamepath))
+
+            logging.info("Re-running manual installation process (selecttheIsland())")
+            print("\nPlease select a new {0} installation".format(game))
+            time.sleep(2)
+            selecttheIsland()
+
+# ------------ End Manual LEGO Island Installation Selection ------------ #
 
 if __name__ == "__main__":
     # Write window title (since there is no GUI)
