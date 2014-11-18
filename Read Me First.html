@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<style>
+table, h2, p, #careful, #appname { text-align: center; }
+.italic { font-style: italic; }
+.bold { font-weight: bold; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+<title>ICU Windower Readme</title>
+</head>
+<body>
+<a name="ToC"></a>
+<h2>ICU Windower Version 2.0 Readme</h2>
+<table border="0">
+<thead>
+<th>Table of Contents</th>
+</thead>
+<tbody>
+<tr>
+<td><a href="#Intro">Introduction</a></td>
+</tr>
+<tr>
+<td><a href="#How">Usage</a></td>
+</tr>
+<tr>
+<td><a href="#Changes">Change Log</a></td>
+</tr>
+<tr>
+<td><a href="#Help">Support</a></td>
+</tr>
+<tr>
+<tr>
+<td><a href="#Credit">Credit</a></td>
+</tr>
+</tbody>
+</table>
+<a name="Intro"></a>
+<h2>Introduction</h2>
+<p>This is the Readme for the <span class="bold">ICU (LEGO Island Configuration Utility)</span>, a <a href="http://python.org" target="_blank" title="Python 
+(Programming Language)">Python 3</a> application to to a provide a collection of tools for the 1997 Mindscape PC game <a href="
+http://en.wikipedia.org/wiki/Lego_Island" target="_blank"><span class="italic">LEGO Island</span></a>.</p><a name="How"></a>
+
+<h2>ICU Windower</h2>
+<h3 id="appname">Usage</h3>
+<p>You have downloaded the <span class="bold">ICU Windower</span> component of <span class="bold">ICU</span>. This small tool, rewritten from the original 
+Inno Setup version,<br>automatically enables Windowed Mode and restores the Full Screen Mode, the former of which is a semi-hidden feature of <span class=
+"italic">LEGO Island</span>.</p>
+
+<p>Simply click <span class="italic">Launch ICU Windower.bat</span> to launch <span class="bold">ICU Windower</span>. This release supports both 32- and 
+64-bit Windows, so there is no need to choose the correct one.<br>You will need Administrator rights to run <span class="bold">ICU Windower</span>, as they 
+are needed to write to the HKEY_LOCAL_MACHINE section of the Registry.</p>
+
+<p>This release automatically sets the Ramp Emulation Game Graphics setting and all other required settings so so Windowed Mode will activate.
+<br>It also asks you if you would like to use Ramp Emulation or MMX Emulation when restoring Full Screen Mode, as well as other Game Graphics settings.</p>
+
+<p>Do note that Windowed Mode will not activate all the time, or maybe not at all, simply because a method to always activate it is still being developed.
+<br>If you experience this, please follow the same steps you would to report a bug.</p>
+<a name="Changes"></a>
+
+<h2>Change Log</h2>
+<h3>2.0</h3>
+(Released March 16, 2013)<br>
+<ul>
+<li>Official rename from <span class="bold">LEGO Island Windower</span> to <span class="bold">ICU Windower</span></li>
+<li>Rewritten from scratch in Python 3.3, with same feature set as V1.3</li>
+<li>Carried over game launcher after either mode is activated from V1.3.1 (uses installation path defined in Registry)</li>
+<li>Added window title using app name, major version</li>
+<li>Carried over HTML Readme from 1.3.1</li>
+<li>Updated Readme with new info</li>
+<li>Removed Inno Setup Installer</li>
+<li>Removed Compiling Guide</li>
+</ul>
+
+<h3>1.3.1</h3>
+(Released Never [Internal Build])<br>
+<ul>
+<li>Rewrote Compiling Guide in HTML</li>
+<li>Rewrote Readme in HTML</li>
+<li>Added IsWin32 Pascal Code check from <a href="http://camstudio.org" title="CamStudio" target="_blank">CamStudio</a> Inno Setup Installer</li>
+<li>Added ability to run LEGO Island after Game Graphics selections are made (works with both x86 and x64 Windows)</li>
+<li>Aforementioned run command is now executed with Administrator privileges</li>
+</ul>
+
+<h3>1.3</h3>
+(Released November 23, 2012)<br>
+<ul>
+<li>x86 and x64 combined into one binary</li>
+<li>Ramp Emulation is now enabled when Windowed mode is activated</li>
+<li>Created [Tasks] functions to as what Game Graphics setting (Ramp or MMX) to use when switching back to Full Screen mode.</li>
+<li>Changed OutputBaseFilename to use #MyAppVerName</li>
+<li>Change English Language strings to use lowercase name (as Inno Setup does by default)</li>
+<li>Added ISPP function to disable compile for any version of Inno Setup below 5.5.2</li>
+<li>Updated and added new text</li>
+<li>Created [CustomMessages] section to handle new text</li>
+<li>Commented each [Registry] function to denote its function</li>
+<li>Updated Readme and CompilingGuide</li>
+<li>Small, minor changes</li>
+<li>Updated Changed Log to add missing releases</li>
+</ul>
+
+<h3>LEGO Island Windower Win98</h3>
+
+(Released September 18, 2012)<br>
+<ul>
+<li>Limited supported OS to Windows 9x only (it will not run on Windows 2000 or later)</li>
+<li>Modified message when run on Windows 2000+</li>
+<li>Changed #MyAppVersion to 1.0.1</li>
+<li>Updated source information to correctly ID version and code basis</li></ul>
+<h4>Misc:</h4>
+<ul>
+<li>Updated CompilingGuide.txt with more information.</li>
+</ul>
+
+<h3>1.2.2.2</h3>
+
+(Released September 17, 2012)<br>
+
+<h4>Joint:</h4>
+<ul>
+<li>Recompiled binaries using Inno Setup 5.5.1 Unicode to better support Windows 8</li>
+<li>Compiled special Windows 98 binary using Inno Setup 5.4.3 ANSI</li>
+</ul>
+
+<h3>1.2.2.1</h3>
+(Released August 26, 2012)<br>
+
+<h4>Joint:</h4>
+<ul>
+<li>Changed text to mention which graphics setting must be active to make this work</li>
+</ul>
+<h4>Misc:</h4>
+<ul>
+<li>Updated readme (forgot to change some stuff from last release)</li>
+</ul>
+ 
+<h3>1.2.2</h3>
+(Released August 25, 2012)<br>
+
+<h4>Joint:</h4>
+<ul>
+<li>New program icon by <a title="rioforce on Youtube" target="_blank" href="http://www.youtube.com/user/LukeActionFilms">rioforce</a></li>
+<li>Swapped mode selection buttons. Windowed is now the default option.</li>
+<li>Added another LEGO Island quote</li>
+<li>Removed compression (it didn't have any effect on the size)</li>
+<li>*Removed unnecessary code</li>
+</ul>
+<h4>x86 only:</h4>
+<ul>
+<li>Program now goes straight to 32-bit registry area (attempt to fix an reported bug)</li>
+</ul>
+<h4>x64 only:</h4>
+<ul>
+<li>Program now goes straight to 64-bit registry area (attempt to fix an reported bug)</li>
+</ul>
+<h4>Misc:</h4>
+<ul>
+<li>Updated readme a bit
+<li>Changed compiler download link in Compiling Guide</li>
+</ul>
+
+<h3>1.2.1</h3>
+(Released August 24, 2012)<br>
+
+<h4>Joint:</h4>
+<ul>
+<li>Changed program branding as much as possible (trying to remove all text which refereed to a Setup)</li>
+<li>Set user rights to Admin (sadly, it will not work any other way)</li>
+</ul>
+
+<h3>1.2</h3>
+(Released August 24, 2012)<br>
+
+<h4>Joint:</h4>
+<ul>
+<li>Set user rights to None (would not run on non-admin accounts)</li>
+<li>Removed AppID</li>
+<li>Changed cancel dialog message</li>
+<li>Code modification</li>
+<li>App Version, Copyright, and Publisher info</li>
+<li>Time of program compile is now expressed in UTC</li>
+</ul>
+<h4>x86 only:</h4>
+<ul>
+<li>Now runs only on Windows x86</li>
+</ul>
+<h4>x64 only:</h4>
+<ul>
+<li>Added support for Itanium 64 (just in case it is needed)</li>
+</ul>
+<h4>Misc:</h4>
+<ul>
+<li>Small file renaming</li>
+<li>Updated readme</li>
+<li>Created Compiling Guide</li>
+</ul>
+
+<h3>1.1</h3>
+(Released Never)<br>
+<ul>
+<li>Version 1.1 was skipped due to the amount of changes from 1.0</li>
+</ul>
+
+<h3>1.0</h3>
+(Released August 23, 2012)<br>
+<ul>
+<li>First release</li>
+</ul>
+</ul><a name="Help"></a>
+
+<h2>Support</h2>
+To request a feature, submit a code patch, or download a new release of ICU, please go to <a href="https://github.com/le717/ICU" target="_blank">
+https://github.com/le717/ICU</a>
+To submit a bug report, please go to <a href="https://github.com/le717/ICU/issues" target="_blank">https://github.com/le717/ICU/issues</a>, state the bug, 
+and attach <code>YourScoreCube.log</code>, located at <code>*Location of ICU Windower*\Logs</code>. Attaching this file will ensure the bug will be found a 
+lot easier, and a bug fix will be released much faster.</p><a name="Credit"></a>
+
+<h2>Credit</h2>
+<p class="bold"><span class="italic">ICU (LEGO Island Configuration Utility)</span> is copyright 2012-2013  <a href="http://triangle717.wordpress.com" target=
+"_blank" title="Triangle717.WordPress.com">Triangle717</a>, and released under the <a
+href="http://www.gnu.org/licenses/gpl.html" target="_blank" title ="GNU General Public License Version 3">GNU General Public License Version 3.</a></p>
+<ul>
+<li>Cyrem at <a title="Rock Raiders United" target="_blank" href="http://rockraidersunited.org">Rock Raiders United</a> for making the program icon for 
+V1.0-V1.2.1 (although he didn't make it for the program. He made it for the forum. I just downloaded it and used it myself. :P</li>
+<li><a title="rioforce on Youtube" target="_blank" href="http://www.youtube.com/user/LukeActionFilms">rioforce</a> for rendering the totally awesome 
+Brickster mug shot for V1.2.2 - 1.3.1 and Win98 Special Build (thanks rioforce)!</li>
+</ul>
+<br>
+<a href="#ToC">Back to the Beginning</a>
+</body>
+</html>
